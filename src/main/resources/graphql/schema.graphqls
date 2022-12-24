@@ -1,0 +1,33 @@
+scalar DateTime
+
+type Patient {
+    id: ID!
+    name: String!
+    appointments: [Appointment]!
+}
+
+type Appointment {
+    id: ID!
+    dateTime: DateTime!
+    patient: Patient!
+    status: AppointmentStatus
+    comments: String
+}
+
+enum AppointmentStatus {
+    SCHEDULED
+    CANCELED
+    COMPLETED
+}
+
+type Query {
+    getTodayAppointments: [Appointment]
+    getPatientAppointmentHistory(patientId: ID!): [Appointment]
+    getPatientAppointmentsByName(name: String!): [Appointment]
+    getAppointmentsByDate(startDate: DateTime!, endDate: DateTime!): [Appointment]
+}
+
+type Mutation {
+    createAppointment(dateTime: DateTime!, patientId: ID!): Appointment
+    cancelAppointment(appointmentId: ID!, reason: String!): Appointment
+}
